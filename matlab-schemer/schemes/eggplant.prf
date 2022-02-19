@@ -1,0 +1,33 @@
+# eggplant - MATLAB color scheme
+# Generated with schemer_export v1.4.0, on MATLAB 9.7.0.1319299 (R2019b) Update 5
+# Wed Jul 01 08:52:17 PDT 2020
+# To enable this color scheme in MATLAB use schemer_import, available at:
+#     https://github.com/scottclowe/matlab-schemer
+#     https://www.mathworks.com/matlabcentral/fileexchange/53862-matlab-schemer
+ColorsUseSystem=Bfalse
+ColorsUseMLintAutoFixBackground=Btrue
+Editor.VariableHighlighting.Automatic=Btrue
+Editor.NonlocalVariableHighlighting=Btrue
+EditorCodepadHighVisible=Btrue
+EditorCodeBlockDividers=Btrue
+Editorhighlight-caret-row-boolean=Btrue
+EditorRightTextLineVisible=Btrue
+EditorRightTextLimitLineWidth=I1
+ColorsText=C-1
+ColorsBackground=C-16187334
+Colors_M_Keywords=C-16728129
+Colors_M_Comments=C-11746462
+Colors_M_Strings=C-4259649
+Colors_M_UnterminatedStrings=C-256
+Colors_M_SystemCommands=C-3355444
+Colors_M_Errors=C-65468
+Colors_HTML_HTMLLinks=C-16751169
+Colors_M_Warnings=C-20396
+ColorsMLintAutoFixBackground=C-12303292
+Editor.VariableHighlighting.Color=C-16728180
+Editor.NonlocalVariableHighlighting.TextColor=C-8323141
+Editorhighlight-lines=C-14931388
+Editorhighlight-caret-row-boolean-color=C-16762000
+EditorRightTextLimitLineColor=C-14665909
+Color_CmdWinWarnings=C-2534631
+Color_CmdWinErrors=C-65468
