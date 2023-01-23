@@ -1,0 +1,9 @@
+function startup
+
+set(0,'defaultfigurecolor',[1 1 1])
+set(groot, 'defaultAxesTickDir', 'out');
+set(groot,  'defaultAxesTickDirMode', 'manual');
+set(0,'DefaultFigureWindowStyle','docked')
+% box off
+
+end
