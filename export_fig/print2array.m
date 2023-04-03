@@ -63,6 +63,8 @@ function [A, bcol, alpha] = print2array(fig, res, renderer, gs_options)
 % 10/03/21: Forced a repaint at top of function to ensure accurate image snapshot (issue #211)
 % 26/08/21: Added a short pause to avoid unintended image cropping (issue #318)
 % 25/10/21: Avoid duplicate error message when retrying print2array with different resolution; display internal print error message
+% 19/12/21: Speedups; fixed exporting non-current figure (hopefully fixes issue #318)
+% 22/12/21: Avoid memory leak during screen-capture
 %}
 
     % Generate default input arguments, if needed
@@ -183,7 +185,7 @@ function [A, bcol, alpha] = print2array(fig, res, renderer, gs_options)
             if err
                 % Display suggested workarounds to internal print() error (issue #16)
                 if ~isRetry
-                    fprintf(2, 'An error occured in Matlab''s builtin print function:\n%s\nTry setting the figure Renderer to ''painters'' or use opengl(''software'').\n\n', ex.message);
+                    fprintf(2, 'An error occurred in Matlab''s builtin print function:\n%s\nTry setting the figure Renderer to ''painters'' or use opengl(''software'').\n\n', ex.message);
                 end
                 rethrow(ex);
             end
@@ -289,7 +291,8 @@ function [imgData, alpha] = getJavaImage(hFig)
     import java.awt.image.BufferedImage
     try TYPE_INT_RGB = BufferedImage.TYPE_INT_RGB; catch, TYPE_INT_RGB = 1; end
     jImage = BufferedImage(w, h, TYPE_INT_RGB);
-    jPanel.paint(jImage.createGraphics);
+    jGraphics = jImage.createGraphics;
+    jPanel.paint(jGraphics);
     jPanel.paint(jOriginalGraphics);  % repaint original figure to avoid a blank window
 
     % Extract the RGB pixels from the BufferedImage (see screencapture.m)
@@ -302,8 +305,11 @@ function [imgData, alpha] = getJavaImage(hFig)
     % And now also the alpha channel (if available)
     alpha   =     transpose(reshape(pixelsData(4, :, :), w, h));
 
+    % Avoid memory leaks (see \toolbox\matlab\toolstrip\+matlab\+ui\+internal\+toolstrip\Icon.m>localFromImgToURL)
+    jGraphics.dispose();
+
     % Ensure that the results are the expected size, otherwise raise an error
-    figSize = getpixelposition(gcf);
+    figSize = getpixelposition(hFig);
     expectedSize = [figSize(4), figSize(3), 3];
     if ~isequal(expectedSize, size(imgData))
         error('bad Java screen-capture size!')
